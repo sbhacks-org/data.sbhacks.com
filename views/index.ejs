@@ -1,0 +1,7 @@
+<h1>Number of applications submitted:
+	<%= locals.applications.reduce((acc, currentValue) => acc + Number(currentValue["count"]), 0) %>
+</h1>
+
+<% for(index in locals.applications) { %>
+	<p><%= JSON.stringify(locals.applications[index]) %></p>
+<% } %>
