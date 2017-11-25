@@ -25,7 +25,9 @@ const getCount = () => {
 	let school_count_query = 
 	`SELECT schools.name, COUNT(*)
 	FROM schools
-	JOIN applications ON applications.school_id = schools.id GROUP BY schools.name;`;
+	JOIN applications ON applications.school_id = schools.id
+	GROUP BY schools.name
+	ORDER BY count DESC;`;
 
 	return new Promise((resolve, reject) => {
 		client.query(school_count_query, (err, res) => {
