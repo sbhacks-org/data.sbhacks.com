@@ -1,9 +1,12 @@
 require("dotenv").config();
 
+const NodeCache = require("node-cache");
 const { Client } = require("pg");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
+
+const school_cache = new NodeCache({ stdTTL: 60 * 5 });
 
 let client = new Client({
 	user: "sbhacksiv",
@@ -30,9 +33,16 @@ const getCount = () => {
 	ORDER BY count DESC;`;
 
 	return new Promise((resolve, reject) => {
-		client.query(school_count_query, (err, res) => {
-			resolve(res.rows);
-		});
+		school_cache.get("count", (err, cached_rows) => {
+			if(cached_rows) return resolve(cached_rows);
+
+			console.log("querying..");
+			client.query(school_count_query, (err, res) => {
+				school_cache.set("count", res.rows, (err, success) => {
+					resolve(res.rows);
+				});
+			});
+		})
 	});
 }
 
