@@ -1,7 +1,19 @@
 <h1>Number of applications submitted:
-	<%= locals.applications.reduce((acc, currentValue) => acc + Number(currentValue["count"]), 0) %>
+	<%= locals.schools.reduce((acc, currentValue) => acc + Number(currentValue["count"]), 0) %>
 </h1>
 
-<% for(index in locals.applications) { %>
-	<p><%= JSON.stringify(locals.applications[index]) %></p>
-<% } %>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Count</th>
+	</tr>
+	<tbody>
+		<% for(let index in locals.schools) { %>
+			<% let school = locals.schools[index]; %>
+			<tr>
+				<td><%= school.name %></td>
+				<td><%= school.count %></td>
+			</tr>
+		<% } %>
+	</tbody>
+</table>

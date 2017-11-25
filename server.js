@@ -38,8 +38,8 @@ app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
 	getCount()
-	.then((applications) => {
-		res.locals.applications = applications;
+	.then((schools) => {
+		res.locals.schools = schools;
 		res.render("index");
 	});
 });
