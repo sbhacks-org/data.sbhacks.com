@@ -1,6 +1,24 @@
-<h1>Number of applications submitted:
-	<%= locals.schools.reduce((acc, currentValue) => acc + Number(currentValue["count"]), 0) %>
-</h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css">
+	<style type="text/css">
+		body {
+			text-align: center;
+			padding-top: 10px; 
+		}
+		table {
+			margin: 0 auto;
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<h1>
+		<span>Number of applications submitted:</span>
+		<%= locals.schools.reduce((acc, currentValue) => acc + Number(currentValue["count"]), 0) %>
+	</h1>
 
 	<table>
 		<tr>
