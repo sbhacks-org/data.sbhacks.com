@@ -2,18 +2,16 @@
 	<%= locals.schools.reduce((acc, currentValue) => acc + Number(currentValue["count"]), 0) %>
 </h1>
 
-<table>
-	<tr>
-		<th>Name</th>
-		<th>Count</th>
-	</tr>
-	<tbody>
-		<% for(let index in locals.schools) { %>
-			<% let school = locals.schools[index]; %>
-			<tr>
-				<td><%= school.name %></td>
-				<td><%= school.count %></td>
-			</tr>
-		<% } %>
-	</tbody>
-</table>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Count</th>
+		</tr>
+		<tbody>
+			<% for(let index in locals.schools) { %>
+				<%- include("partials/school", { school: locals.schools[index] }) %>
+			<% } %>
+		</tbody>
+	</table>
+</body>
+</html>
