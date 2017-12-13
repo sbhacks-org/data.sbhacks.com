@@ -24,12 +24,12 @@ if(process.env.NODE_ENV === "production") {
 
 client.connect();
 
-const getCount = () => {
+const getSchoolCount = () => {
 	let school_count_query = 
-	`SELECT schools.name, COUNT(*)
+	`SELECT schools.id, schools.name, COUNT(*)
 	FROM schools
 	JOIN applications ON applications.school_id = schools.id
-	GROUP BY schools.name
+	GROUP BY schools.name, schools.id
 	ORDER BY count DESC;`;
 
 	return new Promise((resolve, reject) => {
@@ -49,7 +49,7 @@ const getCount = () => {
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-	getCount()
+	getSchoolCount()
 	.then((schools) => {
 		res.locals.schools = schools;
 		res.render("index");
