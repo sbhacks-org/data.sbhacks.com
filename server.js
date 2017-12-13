@@ -46,13 +46,50 @@ const getSchoolCount = () => {
 	});
 }
 
+const getApplications = (school_id) => {
+	let applications_from_school_query = 
+	`SELECT applications.*, users.* schools.name
+	FROM schools
+	JOIN applications ON applications.school_id = schools.id
+	JOIN users ON applications.user_id = users.id
+	WHERE schools.id = ${parseInt(school_id) || 0};`;
+
+	return new Promise((resolve, reject) => {
+		school_cache.get(`apps-${school_name}`, (err, cached_rows) => {
+			if(cached_rows) return resolve(cached_rows);
+
+			console.log("querying..");
+			client.query(applications_from_school_query, (err, res) => {
+				school_cache.set(`apps-${school_name}`, res.rows, (err, success) => {
+					resolve(res.rows);
+				});
+			});
+		})
+	});
+};
+
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
 	getSchoolCount()
 	.then((schools) => {
+		console.log(schools[0]);
 		res.locals.schools = schools;
 		res.render("index");
+	});
+});
+
+app.get("/applications", (req, res) => {
+	getSchoolCount()
+	.then((schools) => {
+		res.locals.schools = schools;
+		if(req.query["school_id"]) {
+			getApplications(school_id)
+			.then((applications) => {
+				res.locals.applications = applications;
+				res.render("applications");
+			});
+		}
 	});
 });
 
