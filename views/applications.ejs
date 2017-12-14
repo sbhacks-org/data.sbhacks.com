@@ -24,18 +24,13 @@
 	</style>
 </head>
 <body>
-	<h1>
-		<span>Number of applications submitted:</span>
-		<%= locals.schools.reduce((acc, currentValue) => acc + Number(currentValue["count"]), 0) %>
-	</h1>
-
 	<div class="ui selection dropdown search">
-		<input type="hidden" name="school_id" value="<%- locals["query"]["school_id"] %>">
+		<input type="hidden" name="school_id" value="<%- locals["params"]["school_id"] %>">
 		<i class="dropdown icon"></i>
 		<div class="default text">School</div>
 		<div class="menu">
 			<% locals.schools.forEach((school) => { %>
-				<%- `<a href="?school_id=${school.id}" class="item" data-value="${school.id}">${school.name}</a>` %>
+				<%- `<a href="/applications/${school.id}" class="item" data-value="${school.id}">${school.name}</a>` %>
 			<% }); %>
 		</div>
 	</div>

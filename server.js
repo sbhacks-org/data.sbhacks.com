@@ -84,12 +84,12 @@ app.get("/", (req, res) => {
 	});
 });
 
-app.get("/applications", (req, res) => {
+app.get("/applications/:school_id?", (req, res) => {
 	getSchoolCount()
 	.then((schools) => {
 		res.locals.schools = schools;
-		res.locals.query = req.query;
-		getApplications(req.query["school_id"])
+		res.locals.params = req.params;
+		getApplications(req.params["school_id"])
 		.then((applications) => {
 			res.locals.applications = applications;
 			res.render("applications");
