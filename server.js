@@ -48,19 +48,20 @@ const getSchoolCount = () => {
 
 const getApplications = (school_id) => {
 	let applications_from_school_query = 
-	`SELECT applications.*, users.* schools.name
+	`SELECT applications.*, users.*, schools.name as school_name
 	FROM schools
 	JOIN applications ON applications.school_id = schools.id
 	JOIN users ON applications.user_id = users.id
-	WHERE schools.id = ${parseInt(school_id) || 0};`;
+	${school_id ? `WHERE schools.id = ${parseInt(school_id) || 0}` : ""};`;
 
 	return new Promise((resolve, reject) => {
-		school_cache.get(`apps-${school_name}`, (err, cached_rows) => {
+		school_cache.get(`apps-${school_id}`, (err, cached_rows) => {
 			if(cached_rows) return resolve(cached_rows);
 
-			console.log("querying..");
+			console.log("Querying applications..");
 			client.query(applications_from_school_query, (err, res) => {
-				school_cache.set(`apps-${school_name}`, res.rows, (err, success) => {
+				if(err) console.log(err);
+				school_cache.set(`apps-${school_id}`, res.rows, (err, success) => {
 					resolve(res.rows);
 				});
 			});
@@ -70,10 +71,14 @@ const getApplications = (school_id) => {
 
 app.set("view engine", "ejs");
 
+app.use((req, res, next) => {
+	res.locals.s3_url = process.env["S3_URL"] || "";
+	next();
+});
+
 app.get("/", (req, res) => {
 	getSchoolCount()
 	.then((schools) => {
-		console.log(schools[0]);
 		res.locals.schools = schools;
 		res.render("index");
 	});
@@ -83,13 +88,13 @@ app.get("/applications", (req, res) => {
 	getSchoolCount()
 	.then((schools) => {
 		res.locals.schools = schools;
-		if(req.query["school_id"]) {
-			getApplications(school_id)
-			.then((applications) => {
-				res.locals.applications = applications;
-				res.render("applications");
-			});
-		}
+		res.locals.query = req.query;
+		getApplications(req.query["school_id"])
+		.then((applications) => {
+			res.locals.applications = applications;
+			res.render("applications");
+		});
+		
 	});
 });
 
