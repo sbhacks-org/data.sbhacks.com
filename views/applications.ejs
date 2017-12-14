@@ -30,7 +30,7 @@
 		<div class="default text">School</div>
 		<div class="menu">
 			<% locals.schools.forEach((school) => { %>
-				<%- `<a href="/applications/${school.id}" class="item" data-value="${school.id}">${school.name}</a>` %>
+				<%- `<a href="${locals.token}/applications/${school.id}" class="item" data-value="${school.id}">${school.name}</a>` %>
 			<% }); %>
 		</div>
 	</div>

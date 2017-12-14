@@ -73,6 +73,8 @@ app.set("view engine", "ejs");
 
 app.use((req, res, next) => {
 	res.locals.s3_url = process.env["S3_URL"] || "";
+	res.locals.token = process.env["TOKEN"];
+
 	next();
 });
 
@@ -84,7 +86,7 @@ app.get("/", (req, res) => {
 	});
 });
 
-app.get("/applications/:school_id?", (req, res) => {
+app.get(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 	getSchoolCount()
 	.then((schools) => {
 		res.locals.schools = schools;
