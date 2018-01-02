@@ -52,7 +52,8 @@ const getApplications = (school_id) => {
 	FROM schools
 	JOIN applications ON applications.school_id = schools.id
 	JOIN users ON applications.user_id = users.id
-	${school_id ? `WHERE schools.id = ${parseInt(school_id) || 0}` : ""};`;
+	${school_id ? `WHERE schools.id = ${parseInt(school_id) || 0}` : ""}
+	ORDER BY applications."createdAt", applications."updatedAt";`;
 
 	return new Promise((resolve, reject) => {
 		school_cache.get(`apps-${school_id}`, (err, cached_rows) => {
