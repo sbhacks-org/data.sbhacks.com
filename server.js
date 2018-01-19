@@ -48,7 +48,7 @@ const getSchoolCount = () => {
 
 const getApplications = (school_id) => {
 	let applications_from_school_query = 
-	`SELECT applications.*, users.*, schools.name as school_name
+	`SELECT applications.*, users.*, schools.name as school_name, applications.id as application_id
 	FROM schools
 	JOIN applications ON applications.school_id = schools.id
 	JOIN users ON applications.user_id = users.id
@@ -69,6 +69,35 @@ const getApplications = (school_id) => {
 		})
 	});
 };
+
+const getAllApplicationsNoCache = () => {
+	let applications_from_school_query = 
+	`SELECT applications.*, users.*, schools.name as school_name, applications.id as application_id
+	FROM schools
+	JOIN applications ON applications.school_id = schools.id
+	JOIN users ON applications.user_id = users.id
+	ORDER BY applications."createdAt", applications."updatedAt";`;
+
+	return new Promise((resolve, reject) => {
+		client.query(applications_from_school_query, (err, res) => {
+			if(err) console.log(err);
+			resolve(res.rows);
+		});
+	});
+};
+
+const getApplicationsCheckedInCountNoCache = () => {
+	let applications_checked_in_count_query = 
+	`SELECT COUNT(*) FROM applications WHERE checked_in=true;`;
+
+	return new Promise((resolve, reject) => {
+		client.query(applications_checked_in_count_query, (err, res) => {
+			if(err) console.log(err);
+			resolve(res.rows);
+		});
+	});
+};
+
 
 app.set("view engine", "ejs");
 
@@ -97,7 +126,36 @@ app.get(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 			res.locals.applications = applications;
 			res.render("applications");
 		});
-		
+	});
+});
+
+app.get("/checkin", (req, res) => {
+	getApplicationsCheckedInCountNoCache()
+	.then((applications_checked_in_count) => {
+		res.locals.applications_checked_in_count = applications_checked_in_count[0]["count"];
+		getAllApplicationsNoCache()
+		.then((applications) => {
+			res.locals.applications = applications;
+			res.render("checkin");
+		});
+	})
+});
+
+app.post("/checkin", (req, res) => {
+	if(isNaN(req.query.application_id)) return res.json("Nope");
+
+	client.query(`UPDATE applications SET checked_in=true WHERE id=${req.query.application_id};`, (err, response) => {
+		if(err) throw err;
+		res.redirect("/checkin");
+	});
+});
+
+app.post("/undo_checkin", (req, res) => {
+	if(isNaN(req.query.application_id)) return res.json("Nope");
+
+	client.query(`UPDATE applications SET checked_in=NULL WHERE id=${req.query.application_id};`, (err, response) => {
+		if(err) throw err;
+		res.redirect("/checkin");
 	});
 });
 

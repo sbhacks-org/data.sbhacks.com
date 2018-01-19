@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Check In</title>
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css">
 	<style type="text/css">
 		body {
@@ -12,6 +12,8 @@
 		table {
 			margin: 0 auto;
 			text-align: center;
+			border-spacing: 0;
+			border-collapse: collapse;
 		}
 		table, th, td {
 			border: 1px solid black;
@@ -22,34 +24,25 @@
 		.dropdown {
 			margin: 20px 0;
 		}
+		.checked_in {
+			background-color: #81c88c;
+		}
+		.waitlisted {
+			background-color: #999;
+		}
 	</style>
 </head>
 <body>
-	<div class="ui selection dropdown search">
-		<input type="hidden" name="school_id" value="<%- locals["params"]["school_id"] %>">
-		<i class="dropdown icon"></i>
-		<div class="default text">School</div>
-		<div class="menu">
-			<% locals.schools.forEach((school) => { %>
-				<%- `<a href="/${locals.token}/applications/${school.id}" class="item" data-value="${school.id}">${school.name}</a>` %>
-			<% }); %>
-		</div>
-	</div>
-
+	<h1>Checked In Count: <%- locals.applications_checked_in_count %></h1>
 	<table>
 		<tr>
 			<th>Name</th>
 			<th>School</th>
-			<th>Major</th>
-			<th>Grad Year</th>
-			<th>Level of Study</th>
-			<th>Github</th>
-			<th>Linkedin</th>
-			<th>Resume</th>
+			<th>Check-In</th>
 		</tr>
 		<tbody>
 			<% for(let index in locals.applications) { %>
-				<%- include("partials/application", locals.applications[index]) %>
+				<%- include("partials/checkin", locals.applications[index]) %>
 			<% } %>
 		</tbody>
 	</table>
