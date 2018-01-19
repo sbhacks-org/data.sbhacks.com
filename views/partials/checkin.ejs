@@ -1,5 +1,6 @@
 <tr class="<%- locals.checked_in ? "checked_in" : locals.accepted ? "accepted" : "waitlisted" %>">
 	<td><%- locals.first_name %> <%- locals.last_name %></td>
+	<th><%- locals.email %></th>
 	<td><%- locals.school_name.substr(0, 50) %></td>
 	<td>
 		<% if(locals.checked_in) { %>
