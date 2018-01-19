@@ -76,7 +76,7 @@ const getAllApplicationsNoCache = () => {
 	FROM schools
 	JOIN applications ON applications.school_id = schools.id
 	JOIN users ON applications.user_id = users.id
-	ORDER BY applications."createdAt", applications."updatedAt";`;
+	ORDER BY accepted DESC, first_name, last_name;`;
 
 	return new Promise((resolve, reject) => {
 		client.query(applications_from_school_query, (err, res) => {
