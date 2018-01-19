@@ -4,11 +4,11 @@
 	<td><%- locals.school_name.substr(0, 50) %></td>
 	<td>
 		<% if(locals.checked_in) { %>
-			<form action="/undo_checkin?application_id=<%- locals.application_id %>" method="POST">
+			<form action="/<%- locals.token %>/undo_checkin?application_id=<%- locals.application_id %>" method="POST">
 				<button type="submit">Undo</button>
 			</form>
 		<% } else { %>	
-			<form action="/checkin?application_id=<%- locals.application_id %>" method="POST">
+			<form action="/<%- locals.token %>/checkin?application_id=<%- locals.application_id %>" method="POST">
 				<button type="submit">Check In</button>
 			</form>
 		<% } %>
