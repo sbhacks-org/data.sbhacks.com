@@ -9,10 +9,10 @@ const port = process.env.PORT || 5000;
 const school_cache = new NodeCache({ stdTTL: 60 * 5 });
 
 let client = new Client({
-	user: "sbhacksiv",
+	user: "sbhacksv",
 	password: "1234",
 	host: "localhost",
-	database: "sbhacksiv_development",
+	database: "sbhacksv_development",
 	port: 5432
 });
 
