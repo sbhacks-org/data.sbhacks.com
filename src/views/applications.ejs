@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css">
+	<style type="text/css">
+		body {
+			text-align: center;
+			padding-top: 10px;
+			overflow-x: scroll;
+		}
+		table {
+			margin: 0 auto;
+			text-align: center;
+		}
+		table, th, td {
+			border: 1px solid black;
+		}
+		th, td {
+			padding: 10px;
+		}
+		.dropdown {
+			margin: 20px 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="ui selection dropdown search">
+		<input type="hidden" name="school_id" value="<%- locals["params"]["school_id"] %>">
+		<i class="dropdown icon"></i>
+		<div class="default text">School</div>
+		<div class="menu">
+			<% locals.schools.forEach((school) => { %>
+				<%- `<a href="/${locals.token}/applications/${school.id}" class="item" data-value="${school.id}">${school.name}</a>` %>
+			<% }); %>
+		</div>
+	</div>
+
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>School</th>
+			<th>Major</th>
+			<th>Grad Year</th>
+			<th>Level of Study</th>
+			<th>Github</th>
+			<th>Linkedin</th>
+			<th>Resume</th>
+		</tr>
+		<tbody>
+			<% for(let index in locals.applications) { %>
+				<%- include("partials/application", locals.applications[index]) %>
+			<% } %>
+		</tbody>
+	</table>
+
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".ui.dropdown").dropdown();
+	})
+</script>
+</html>

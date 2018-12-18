@@ -5,6 +5,7 @@ const { Client } = require("pg");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
+var path = require('path');
 
 const school_cache = new NodeCache({ stdTTL: 60 * 5 });
 
@@ -100,6 +101,9 @@ const getApplicationsCheckedInCountNoCache = () => {
 
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "src/views"));
+
+app.use(express.static(path.join(__dirname, "src/static")));
 
 app.use((req, res, next) => {
 	res.locals.s3_url = process.env["S3_URL"] || "";
@@ -113,6 +117,19 @@ app.get("/", (req, res) => {
 	.then((schools) => {
 		res.locals.schools = schools;
 		res.render("index");
+	});
+});
+
+app.get(`/${process.env["TOKEN"]}/app-review`, (req, res) => {
+	getSchoolCount()
+	.then((schools) => {
+		res.locals.schools = schools;
+		res.locals.params = req.params;
+		getApplications(req.params["school_id"])
+		.then((applications) => {
+			//res.locals.applications = applications;
+			res.render("review", {applications: applications});
+		});
 	});
 });
 
