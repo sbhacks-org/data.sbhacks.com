@@ -15,7 +15,7 @@ class AppReview extends React.Component {
 		const { applicants } = this.props;
 		
 		const applicantList = applicants.map((applicant) => 
-			<Applicant application = {applicant} />
+			<Applicant application = {applicant} setRating = {setRating} />
 		);
 		
 
@@ -31,6 +31,7 @@ class AppReview extends React.Component {
 					<th>Github</th>
 					<th>Linkedin</th>
 					<th>Resume</th>
+					<th>Rating</th>
 				</tr>
 				<tbody>
 					{applicantList}
