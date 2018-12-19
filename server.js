@@ -128,7 +128,8 @@ app.get(`/${process.env["TOKEN"]}/app-review`, (req, res) => {
 		getApplications(req.params["school_id"])
 		.then((applications) => {
 			//res.locals.applications = applications;
-			res.render("review", {applications: applications});
+			var apps = {applicants: applications}
+			res.render("review", {applications: apps});
 		});
 	});
 });

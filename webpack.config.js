@@ -20,5 +20,10 @@ module.exports = {
 	            }
 			}
 		]
-	}
+	},
+	plugins: [
+		new webpack.DefinePlugin({
+			"process.env.S3_URL": JSON.stringify(process.env.S3_URL)
+		})
+	]
 };

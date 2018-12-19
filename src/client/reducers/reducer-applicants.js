@@ -1,5 +1,4 @@
-const initialState = [
-	{
+const initialState = [{
 		"id":"default",
 		"phone_number":null,
 		"gender":"Male",
@@ -27,8 +26,7 @@ const initialState = [
 		"passwordResetTokenExpires":null,
 		"school_name":"MIT",
 		"application_id":1
-	}
-];
+}];
 
 const reducer_applicants = (state = initialState) =>
 {

@@ -12,9 +12,13 @@ class AppReview extends React.Component {
 	} 
 
 	render () {
-		
-		//const { applications } = this.props;
 		const { applicants } = this.props;
+		
+		const applicantList = applicants.map((applicant) => 
+			<Applicant application = {applicant} />
+		);
+		
+
 		return(
 			
 			<table>
@@ -29,11 +33,7 @@ class AppReview extends React.Component {
 					<th>Resume</th>
 				</tr>
 				<tbody>
-					
-					{applicants.map(application => {
-						<Applicant application = {application} />
-					})}
-					
+					{applicantList}
 				</tbody>
 			</table>
 		);
@@ -43,7 +43,7 @@ class AppReview extends React.Component {
 
 const mapStateToProps=(state) => {
 	return {
-		applicants: state	
+		applicants: state.applicants	
 	}
 };
 
