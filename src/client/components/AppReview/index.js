@@ -2,7 +2,9 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import Applicant from 'Applicant';
+import Applicant from './Applicant';
+
+import { setRating } from '../../actions';
 
 class AppReview extends React.Component {
 	constructor(props) {
@@ -10,8 +12,10 @@ class AppReview extends React.Component {
 	} 
 
 	render () {
+		
+		//const { applications } = this.props;
 		return(
-			const { applications } = this.props;
+			
 			<table>
 				<tr>
 					<th>Name</th>
@@ -24,9 +28,11 @@ class AppReview extends React.Component {
 					<th>Resume</th>
 				</tr>
 				<tbody>
+					{/*
 					{applications.map(application => {
-						<Applicant application = {application} />
+						<Applicant application = {application} setRating = {this.props.setRating} />
 					})}
+					*/}
 				</tbody>
 			</table>
 		);
@@ -35,9 +41,14 @@ class AppReview extends React.Component {
 
 
 const mapStateToProps=(state) => {
+	console.log(state);
 	return {
-		
+		applicants: state.applicants	
 	}
-}
+};
 
-export default connect(mapStateToProps)(AppReview);
+const mapDispatchToProps=(dispatch) => {
+	return bindActionCreators({setRating: setRating}, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppReview);

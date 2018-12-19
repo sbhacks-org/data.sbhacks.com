@@ -6,12 +6,21 @@
 	<style type="text/css">
 		body {
 			text-align: center;
-			padding-top: 10px; 
+			padding-top: 10px;
 			overflow-x: scroll;
 		}
 		table {
 			margin: 0 auto;
-			text-align: left;
+			text-align: center;
+		}
+		table, th, td {
+			border: 1px solid black;
+		}
+		th, td {
+			padding: 10px;
+		}
+		.dropdown {
+			margin: 20px 0;
 		}
 	</style>
 </head>
@@ -19,6 +28,7 @@
   <div id="root"></div>
 </body>
 <script type="text/javascript">
+	console.log(<%- JSON.stringify(applications) %>);
     window.APPLICATIONS = <%- JSON.stringify(applications) %>;
 </script>
 <script type="text/javascript" src="/js/bundle.js"></script>

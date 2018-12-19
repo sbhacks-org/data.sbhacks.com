@@ -10,6 +10,7 @@ import Layout from "./components/Layout";
 ReactDOM.render(
 	<Provider store={store}>
 		<Layout />
+		
 	</Provider>,
 	document.getElementById("root")
 );

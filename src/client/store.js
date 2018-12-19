@@ -6,6 +6,8 @@ import reducers from "./reducers";
 
 let applications = window.APPLICATIONS || undefined;
 
+delete window.APPLICATIONS;
+
 let middleware = [thunk];
 
 if(process.env.NODE_ENV !== "production") {
