@@ -2,7 +2,9 @@ const initialState = {
 	applicants: null
 };
 
-const reducer_applicants = (state = initialState) =>
+
+
+const reducer_applicants = (state) =>
 {	
 	return state;
 };

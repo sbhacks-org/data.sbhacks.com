@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import Applicant from './Applicant';
 
-import { setRating } from '../../actions';
+import { updateApplicants } from '../../actions';
 
 class AppReview extends React.Component {
 	constructor(props) {
@@ -46,6 +46,10 @@ const mapStateToProps=(state) => {
 		applicants: state.applicants	
 	}
 };
+
+const mapDispatchToProps=(dispatch) => {
+	return bindActionCreators({updateApplicants: updateApplicants}, dispatch);
+}
 
 
 export default connect(mapStateToProps)(AppReview);

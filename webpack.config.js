@@ -16,7 +16,7 @@ module.exports = {
 				exclude: /node_modules/,
 				loader: "babel-loader",
 				query: {
-	                presets: ['es2015', 'react']
+	                presets: ['es2015', 'react', 'stage-2']
 	            }
 			}
 		]
@@ -25,5 +25,6 @@ module.exports = {
 		new webpack.DefinePlugin({
 			"process.env.S3_URL": JSON.stringify(process.env.S3_URL)
 		})
-	]
+	],
+	devtool: process.env.NODE_ENV === "production" ? "none" : "source-map"
 };

@@ -1,43 +1,42 @@
 import React from 'react';
+
 import RatingSelect from './RatingSelect'
+
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+import { setRating } from '../../actions';
+import { fetchRating } from '../../actions';
+
 
 class Applicant extends React.Component {
 	constructor(props) {
 		super(props);
-		
-		var rating = "/"
+
+		var rating = "/";
 		if (this.props.application.rating)
 		{
 			rating = this.props.application.rating;
 		}
 		this.state = {
+			id: this.props.application.application_id,
 			rating: rating
-		}
-		console.log(this.state.rating);
-		
+		};
 	}
 
-	
 	handleChange(e) {
 		this.setState({rating: e.target.value});
-		this.props.setRating(this.props.application.id, e.target.value);
+		console.log("in applicant", this.state);
+		this.props.setRating(this.props.application.application_id, e.target.value);
+		console.log(this.state);
 	}
-	
 
 	render () {
 		const application = this.props.application;
-		console.log(application);
 		var school_name = application.school_name.substr(0, 50);
 		var github = application.github || "N/A";
 		var linkedin = application.linkedin || "N/A";
 		var url = process.env["S3_URL"]+'/'+application.id+'.pdf';
-		/*
-		var rating = "/"
-		if (application.rating)
-		{
-			rating = application.rating;
-		}
-		*/
 
 		return(
 				<tr>
@@ -58,9 +57,8 @@ class Applicant extends React.Component {
 	}
 }
 
-
 const mapDispatchToProps=(dispatch) => {
-	return bindActionCreators({setRating: setRating}, dispatch);
+	return bindActionCreators({setRating: setRating, fetchRating: fetchRating}, dispatch);
 };
 
-export default connect(mapDispatchToProps)(Applicant);
+export default connect(null, mapDispatchToProps)(Applicant);

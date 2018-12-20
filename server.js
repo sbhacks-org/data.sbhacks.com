@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const bodyParser = require('body-parser');
 const NodeCache = require("node-cache");
 const { Client } = require("pg");
 const express = require("express");
@@ -103,6 +104,9 @@ const getApplicationsCheckedInCountNoCache = () => {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, "src/static")));
 
 app.use((req, res, next) => {
@@ -161,16 +165,20 @@ app.put(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 });
 
 app.put('/update-rating', (req, res) => {
+	console.log('in put');
+
+	console.log(req.body);
+
+	//res.json(req.body.rating);
+	//console.log(req.body.rating, req.body.id);
+
+	//res.json(req.body.rating);
 	if(isNaN(req.body.id)) return res.json("Nope");
-
-	console.log(req.body.rating, req.body.id);
-
-	/*
 	client.query(`UPDATE applications SET rating=${req.body.rating} WHERE id=${req.body.id};`, (err, response) => {
 		if(err) throw err;
-		res.json({sucess: true});
+		res.json(req.body.rating);
 	});
-	*/
+	
 });
 
 app.post(`/${process.env["TOKEN"]}/checkin`, (req, res) => {
