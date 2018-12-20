@@ -1,9 +1,11 @@
 import { combineReducers} from "redux";
 
-import ApplicantReducer from "./reducer-applicants";
+import ApplicantsReducer from "./reducer-applicants";
+import ApplicantReducer from "./reducer-applicant";
 
 module.exports = combineReducers(
 	{
-		applicants: ApplicantReducer
+		applicants: ApplicantsReducer,
+		applicant: ApplicantReducer
 	}
 );

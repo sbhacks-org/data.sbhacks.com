@@ -147,17 +147,30 @@ app.get(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 	});
 });
 
-app.get(`/${process.env["TOKEN"]}/checkin`, (req, res) => {
-	getApplicationsCheckedInCountNoCache()
-	.then((applications_checked_in_count) => {
-		res.locals.applications_checked_in_count = applications_checked_in_count[0]["count"];
-		getAllApplicationsNoCache()
+app.put(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
+	getSchoolCount()
+	.then((schools) => {
+		res.locals.schools = schools;
+		res.locals.params = req.params;
+		getApplications(req.params["school_id"])
 		.then((applications) => {
 			res.locals.applications = applications;
-			res.locals.token = process.env["TOKEN"];
-			res.render("checkin");
+			res.render("applications");
 		});
-	})
+	});
+});
+
+app.put('/update-rating', (req, res) => {
+	if(isNaN(req.body.id)) return res.json("Nope");
+
+	console.log(req.body.rating, req.body.id);
+
+	/*
+	client.query(`UPDATE applications SET rating=${req.body.rating} WHERE id=${req.body.id};`, (err, response) => {
+		if(err) throw err;
+		res.json({sucess: true});
+	});
+	*/
 });
 
 app.post(`/${process.env["TOKEN"]}/checkin`, (req, res) => {

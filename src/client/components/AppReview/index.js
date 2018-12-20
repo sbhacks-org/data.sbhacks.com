@@ -12,10 +12,8 @@ class AppReview extends React.Component {
 	} 
 
 	render () {
-		const { applicants } = this.props;
-		
-		const applicantList = applicants.map((applicant) => 
-			<Applicant application = {applicant} setRating = {setRating} />
+		const applicantList = this.props.applicants.map((applicant) => 
+			<Applicant application = {applicant} setRating = {this.props.setRating} />
 		);
 		
 
@@ -30,6 +28,7 @@ class AppReview extends React.Component {
 					<th>Level of Study</th>
 					<th>Github</th>
 					<th>Linkedin</th>
+					<th>Essay</th>
 					<th>Resume</th>
 					<th>Rating</th>
 				</tr>
@@ -48,8 +47,5 @@ const mapStateToProps=(state) => {
 	}
 };
 
-const mapDispatchToProps=(dispatch) => {
-	return bindActionCreators({setRating: setRating}, dispatch);
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppReview);
+export default connect(mapStateToProps)(AppReview);
