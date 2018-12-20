@@ -1,10 +1,12 @@
 require("dotenv").config();
 
+const bodyParser = require('body-parser');
 const NodeCache = require("node-cache");
 const { Client } = require("pg");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
+var path = require('path');
 
 const school_cache = new NodeCache({ stdTTL: 60 * 5 });
 
@@ -100,6 +102,12 @@ const getApplicationsCheckedInCountNoCache = () => {
 
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "src/views"));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "src/static")));
 
 app.use((req, res, next) => {
 	res.locals.s3_url = process.env["S3_URL"] || "";
@@ -116,6 +124,22 @@ app.get("/", (req, res) => {
 	});
 });
 
+app.get(`/${process.env["TOKEN"]}/app-review`, (req, res) => {
+	console.log(req.query);
+	var start = req.query.start || 0;
+	var end = req.query.end || 2000;
+	getAllApplicationsNoCache()
+	.then((applications) => {
+		var filteredApps = applications.filter((application) => {
+			
+			return (application.application_id>=start && application.application_id<=end);
+			
+		});
+		var apps = {applicants: filteredApps};
+		res.render("review", {applications: apps});
+	});
+});
+
 app.get(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 	getSchoolCount()
 	.then((schools) => {
@@ -129,17 +153,32 @@ app.get(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 	});
 });
 
-app.get(`/${process.env["TOKEN"]}/checkin`, (req, res) => {
-	getApplicationsCheckedInCountNoCache()
-	.then((applications_checked_in_count) => {
-		res.locals.applications_checked_in_count = applications_checked_in_count[0]["count"];
-		getAllApplicationsNoCache()
+
+app.put('/update-rating', (req, res) => {
+	if(isNaN(req.body.id)) return res.json("Nope");
+	var rating = null;
+	if (req.body.rating!=='')
+	{
+		rating = req.body.rating;
+	}
+	client.query(`UPDATE applications SET rating=${rating} WHERE id=${req.body.id};`, (err, response) => {
+		if(err) throw err;
+		res.json({id: req.body.id, rating: rating});
+	});
+	
+});
+
+app.put(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
+	getSchoolCount()
+	.then((schools) => {
+		res.locals.schools = schools;
+		res.locals.params = req.params;
+		getApplications(req.params["school_id"])
 		.then((applications) => {
 			res.locals.applications = applications;
-			res.locals.token = process.env["TOKEN"];
-			res.render("checkin");
+			res.render("applications");
 		});
-	})
+	});
 });
 
 app.post(`/${process.env["TOKEN"]}/checkin`, (req, res) => {

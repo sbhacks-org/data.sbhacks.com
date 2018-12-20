@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css">
+	<style type="text/css">
+		body {
+			text-align: center;
+			padding-top: 10px;
+			overflow-x: scroll;
+		}
+		table {
+			margin: 0 auto;
+			text-align: center;
+		}
+		table, th, td {
+			border: 1px solid black;
+		}
+		th, td {
+			padding: 10px;
+		}
+		.dropdown {
+			margin: 20px 0;
+		}
+	</style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script type="text/javascript">
+    window.APPLICATIONS = <%- JSON.stringify(applications) %>;
+</script>
+<script type="text/javascript" src="/js/bundle.js"></script>
+</html>
