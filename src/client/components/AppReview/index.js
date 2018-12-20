@@ -25,6 +25,9 @@ class AppReview extends React.Component {
 			<Applicant application = {applicant} setRating = {this.props.setRating} />
 		);
 		
+		const thinCol = {
+			width: '100px'
+		};
 
 		return(
 			
@@ -35,8 +38,8 @@ class AppReview extends React.Component {
 					<th>Major</th>
 					<th>Grad Year</th>
 					<th>Level of Study</th>
-					<th>Github</th>
-					<th>Linkedin</th>
+					<th style = {thinCol}>Github</th>
+					<th style = {thinCol}> Linkedin</th>
 					<th>Essay</th>
 					<th>Resume</th>
 					<th>Rating</th>
