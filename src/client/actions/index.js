@@ -1,5 +1,5 @@
 export const setRating = (user_id, rating) => {
-	console.log("Set rating of " + user_id + " to " + rating);
+	console.log("Setting rating of " + user_id + " to " + rating);
 	/*
 	return {
 		type: 'APPLICANT_RATING_CHANGED',
@@ -7,15 +7,10 @@ export const setRating = (user_id, rating) => {
 	};
 	*/
 	return function(dispatch, getState) {
-		console.log('in return func');
-
 		var xhttp = new XMLHttpRequest();
 
 		xhttp.addEventListener("load", () => {
-			console.log('in xhttp');
-			console.log(xhttp.responseText);
 			let response = JSON.parse(xhttp.responseText);
-			console.log(response);
 			dispatch({
 				type: "APPLICANT_RATING_CHANGED",
 				payload: response

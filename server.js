@@ -125,16 +125,18 @@ app.get("/", (req, res) => {
 });
 
 app.get(`/${process.env["TOKEN"]}/app-review`, (req, res) => {
-	getSchoolCount()
-	.then((schools) => {
-		res.locals.schools = schools;
-		res.locals.params = req.params;
-		getApplications(req.params["school_id"])
-		.then((applications) => {
-			//res.locals.applications = applications;
-			var apps = {applicants: applications}
-			res.render("review", {applications: apps});
+	console.log(req.query);
+	var start = req.query.start || 0;
+	var end = req.query.end || 2000;
+	getAllApplicationsNoCache()
+	.then((applications) => {
+		var filteredApps = applications.filter((application) => {
+			
+			return (application.application_id>=start && application.application_id<=end);
+			
 		});
+		var apps = {applicants: filteredApps};
+		res.render("review", {applications: apps});
 	});
 });
 
@@ -151,6 +153,21 @@ app.get(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 	});
 });
 
+
+app.put('/update-rating', (req, res) => {
+	if(isNaN(req.body.id)) return res.json("Nope");
+	var rating = null;
+	if (req.body.rating!=='')
+	{
+		rating = req.body.rating;
+	}
+	client.query(`UPDATE applications SET rating=${rating} WHERE id=${req.body.id};`, (err, response) => {
+		if(err) throw err;
+		res.json({id: req.body.id, rating: rating});
+	});
+	
+});
+
 app.put(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 	getSchoolCount()
 	.then((schools) => {
@@ -162,23 +179,6 @@ app.put(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
 			res.render("applications");
 		});
 	});
-});
-
-app.put('/update-rating', (req, res) => {
-	console.log('in put');
-
-	console.log(req.body);
-
-	//res.json(req.body.rating);
-	//console.log(req.body.rating, req.body.id);
-
-	//res.json(req.body.rating);
-	if(isNaN(req.body.id)) return res.json("Nope");
-	client.query(`UPDATE applications SET rating=${req.body.rating} WHERE id=${req.body.id};`, (err, response) => {
-		if(err) throw err;
-		res.json(req.body.rating);
-	});
-	
 });
 
 app.post(`/${process.env["TOKEN"]}/checkin`, (req, res) => {

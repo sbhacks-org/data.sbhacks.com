@@ -5,7 +5,6 @@ import RatingSelect from './RatingSelect'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { setRating } from '../../actions';
 import { fetchRating } from '../../actions';
 
 
@@ -13,22 +12,27 @@ class Applicant extends React.Component {
 	constructor(props) {
 		super(props);
 
+		/*
 		var rating = "/";
 		if (this.props.application.rating)
 		{
 			rating = this.props.application.rating;
 		}
+		*/
+		/*
 		this.state = {
 			id: this.props.application.application_id,
 			rating: rating
 		};
+		*/
+		this.state = {
+			rating: this.props.application.rating
+		}
 	}
 
 	handleChange(e) {
 		this.setState({rating: e.target.value});
-		console.log("in applicant", this.state);
 		this.props.setRating(this.props.application.application_id, e.target.value);
-		console.log(this.state);
 	}
 
 	render () {
@@ -57,8 +61,4 @@ class Applicant extends React.Component {
 	}
 }
 
-const mapDispatchToProps=(dispatch) => {
-	return bindActionCreators({setRating: setRating, fetchRating: fetchRating}, dispatch);
-};
-
-export default connect(null, mapDispatchToProps)(Applicant);
+export default Applicant;

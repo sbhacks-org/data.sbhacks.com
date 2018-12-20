@@ -4,12 +4,21 @@ import { connect } from "react-redux";
 
 import Applicant from './Applicant';
 
+import { setRating } from '../../actions';
 import { updateApplicants } from '../../actions';
 
 class AppReview extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			applicants: this.props.applicants
+		}
+		console.log(this.props);
 	} 
+
+	handleChange(e) {
+
+	}
 
 	render () {
 		const applicantList = this.props.applicants.map((applicant) => 
@@ -48,8 +57,8 @@ const mapStateToProps=(state) => {
 };
 
 const mapDispatchToProps=(dispatch) => {
-	return bindActionCreators({updateApplicants: updateApplicants}, dispatch);
+	return bindActionCreators({setRating: setRating}, dispatch);
 }
 
 
-export default connect(mapStateToProps)(AppReview);
+export default connect(mapStateToProps, mapDispatchToProps)(AppReview);
