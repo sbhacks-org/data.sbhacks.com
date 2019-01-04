@@ -22,6 +22,15 @@
 		.dropdown {
 			margin: 20px 0;
 		}
+		.accepted {
+			background-color: lightgreen;
+		}
+		.pending {
+			background-color: yellow;
+		}
+		.rejected {
+			background-color: palevioletred;
+		}
 	</style>
 </head>
 <body>
@@ -64,6 +73,10 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".ui.dropdown").dropdown();
+		if (locals.accepted===true)
+		{
+			document.getElementsByClassName("example")
+		}
 	})
 </script>
 </html>
