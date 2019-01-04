@@ -7,4 +7,11 @@
 	<td><%- locals.github || "N/A" %></td>
 	<td><%- locals.linkedin || "N/A" %></td>
 	<td><a target="_blank" href="<%- locals.s3_url %>/<%- locals.id %>.pdf">View Resume</a></td>
+	<% if(locals.accepted===true){ %>
+	   <td>Accepted</td>
+	<% } else if(locals.accepted===false){ %>  
+	   <td>Rejected</td>
+	<% } else{ %>  
+	   <td>Pending</td>
+	<% } %>
 </tr>
