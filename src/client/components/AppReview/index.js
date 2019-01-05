@@ -13,7 +13,6 @@ class AppReview extends React.Component {
 		this.state = {
 			applicants: this.props.applicants
 		}
-		console.log(this.props);
 	} 
 
 	handleChange(e) {
