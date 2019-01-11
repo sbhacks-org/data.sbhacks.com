@@ -45,9 +45,15 @@
 			<th>Check-In</th>
 		</tr>
 		<tbody>
-			<%- locals.applications.filter(application => application.accepted === true).map(application => include("partials/checkin", {...application, status: "accepted"})) %>
-			<%- locals.applications.filter(application => !(application.accepted)).map(application => include("partials/checkin", {...application, status: "waitlisted"})) %>
-			<%- locals.applications.filter(application => application.accepted === false).map(application => include("partials/checkin", {...application, status: "rejected"})) %>
+			<% locals.applications.filter(application => application.accepted === true).map(application => { %>
+				<%- include("partials/checkin", {...application, status: "accepted"}) %>
+			<% }) %>
+			<% locals.applications.filter(application => application.accepted === null).map(application => { %>
+				<%- include("partials/checkin", {...application, status: "waitlisted"}) %>
+			<% }) %>
+			<% locals.applications.filter(application => application.accepted === false).map(application => { %>
+				<%- include("partials/checkin", {...application, status: "rejected"}) %>
+			<% }) %>
 		</tbody>
 	</table>
 
