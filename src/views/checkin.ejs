@@ -30,6 +30,9 @@
 		.waitlisted {
 			background-color: #999;
 		}
+		.rejected {
+			background-color: #ff4d4d;
+		}
 	</style>
 </head>
 <body>
@@ -42,9 +45,9 @@
 			<th>Check-In</th>
 		</tr>
 		<tbody>
-			<% for(let index in locals.applications) { %>
-				<%- include("partials/checkin", locals.applications[index]) %>
-			<% } %>
+			<%- locals.applications.filter(application => application.accepted === true).map(application => include("partials/checkin", {...application, status: "accepted"})) %>
+			<%- locals.applications.filter(application => !(application.accepted)).map(application => include("partials/checkin", {...application, status: "waitlisted"})) %>
+			<%- locals.applications.filter(application => application.accepted === false).map(application => include("partials/checkin", {...application, status: "rejected"})) %>
 		</tbody>
 	</table>
 
