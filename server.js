@@ -168,18 +168,6 @@ app.put('/update-rating', (req, res) => {
 	
 });
 
-app.put(`/${process.env["TOKEN"]}/applications/:school_id?`, (req, res) => {
-	getSchoolCount()
-	.then((schools) => {
-		res.locals.schools = schools;
-		res.locals.params = req.params;
-		getApplications(req.params["school_id"])
-		.then((applications) => {
-			res.locals.applications = applications;
-			res.render("applications");
-		});
-	});
-});
 
 app.post(`/${process.env["TOKEN"]}/checkin`, (req, res) => {
 	if(isNaN(req.query.application_id)) return res.json("Nope");
@@ -189,6 +177,19 @@ app.post(`/${process.env["TOKEN"]}/checkin`, (req, res) => {
 		res.redirect(`/${process.env["TOKEN"]}/checkin`);
 	});
 });
+
+app.get("/checkin", (req, res) => {
+	getApplicationsCheckedInCountNoCache()
+	.then((applications_checked_in_count) => {
+		res.locals.applications_checked_in_count = applications_checked_in_count[0]["count"];
+		getAllApplicationsNoCache()
+		.then((applications) => {
+			res.locals.applications = applications;
+			res.render("checkin");
+		});
+	})
+});
+
 
 app.post(`/${process.env["TOKEN"]}/undo_checkin`, (req, res) => {
 	if(isNaN(req.query.application_id)) return res.json("Nope");
