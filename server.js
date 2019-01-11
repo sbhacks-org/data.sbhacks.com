@@ -178,13 +178,14 @@ app.post(`/${process.env["TOKEN"]}/checkin`, (req, res) => {
 	});
 });
 
-app.get("/checkin", (req, res) => {
+app.get(`/${process.env["TOKEN"]}/checkin`, (req, res) => {
 	getApplicationsCheckedInCountNoCache()
 	.then((applications_checked_in_count) => {
 		res.locals.applications_checked_in_count = applications_checked_in_count[0]["count"];
 		getAllApplicationsNoCache()
 		.then((applications) => {
 			res.locals.applications = applications;
+			res.locals.token = process.env["TOKEN"];
 			res.render("checkin");
 		});
 	})
