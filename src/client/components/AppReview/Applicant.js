@@ -52,6 +52,7 @@ class Applicant extends React.Component {
 					<td>{github}</td>
 					<td>{linkedin}</td>
 					<td>{application.essay_answer}</td>
+					<td>{application.essay_answer_2}</td>
 					<td><a target="_blank" href={url}>View Resume</a></td>
 					<td>
 						<RatingSelect rating = {this.state.rating} handleChange={this.handleChange.bind(this)} />

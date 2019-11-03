@@ -5,16 +5,16 @@ const NodeCache = require("node-cache");
 const { Client } = require("pg");
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 var path = require('path');
 
 const school_cache = new NodeCache({ stdTTL: 60 * 5 });
 
 let client = new Client({
-	user: "sbhacksv",
-	password: "1234",
+	user: "postgres",
+	password: null,
 	host: "localhost",
-	database: "sbhacksv_development",
+	database: "sbhacksvi_dev",
 	port: 5432
 });
 

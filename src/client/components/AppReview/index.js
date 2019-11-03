@@ -39,7 +39,8 @@ class AppReview extends React.Component {
 					<th>Level of Study</th>
 					<th style = {thinCol}>Github</th>
 					<th style = {thinCol}> Linkedin</th>
-					<th>Essay</th>
+					<th>Project</th>
+					<th>Time/Money</th>
 					<th>Resume</th>
 					<th>Rating</th>
 				</tr>
