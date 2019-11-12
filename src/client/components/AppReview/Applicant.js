@@ -48,6 +48,7 @@ class Applicant extends React.Component {
 					<td>{school_name}</td>
 					<td>{application.major}</td>
 					<td>{application.graduation_year}</td>
+					<td>{application.ethnicity}</td>
 					<td>{application.level_of_study}</td>
 					<td>{github}</td>
 					<td>{linkedin}</td>
