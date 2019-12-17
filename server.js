@@ -100,6 +100,18 @@ const getApplicationsCheckedInCountNoCache = () => {
 	});
 };
 
+const getApplicationsCheckedInCountNoCacheOrderById = () => {
+	let applications_checked_in_count_query = 
+	`SELECT COUNT(*) FROM applications WHERE checked_in=true ORDER BY id ASC;`;
+
+	return new Promise((resolve, reject) => {
+		client.query(applications_checked_in_count_query, (err, res) => {
+			if(err) console.log(err);
+			resolve(res.rows);
+		});
+	});
+};
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
@@ -128,7 +140,7 @@ app.get(`/${process.env["TOKEN"]}/app-review`, (req, res) => {
 	console.log(req.query);
 	var start = req.query.start || 0;
 	var end = req.query.end || 2000;
-	getAllApplicationsNoCache()
+	getAllApplicationsNoCacheOrderById()
 	.then((applications) => {
 		var filteredApps = applications.filter((application) => {
 			
