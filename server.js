@@ -128,7 +128,7 @@ app.get(`/${process.env["TOKEN"]}/app-review`, (req, res) => {
 	console.log(req.query);
 	var start = req.query.start || 0;
 	var end = req.query.end || 2000;
-	getAllApplicationsNoCacheOrderById()
+	getAllApplicationsNoCache()
 	.then((applications) => {
 		var filteredApps = applications.filter((application) => {
 			
